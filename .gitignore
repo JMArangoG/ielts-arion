@@ -1,15 +1,14 @@
 # ============================================================
-# .gitignore · ielts-arion — versión endurecida (auditoría)
-# Base: plantilla Node de GitHub + refuerzos ARION.
-# Privacidad: Ley 1581 de 2012 (principio de minimización).
+# .gitignore · ielts-arion — v2 (comentarios SOLO en línea propia)
+# Privacidad: Ley 1581 de 2012 (minimización de dato personal).
 # ============================================================
 
-# ---------- Secrets y variables de entorno (YA cubierto, se mantiene) ----------
+# ---------- Secrets y variables de entorno ----------
 .env
 .env.*
-!.env.example          # solo la plantilla pública se versiona
+!.env.example
 
-# ---------- Dependencias (rendimiento: clon y CI ligeros) ----------
+# ---------- Dependencias ----------
 node_modules/
 jspm_packages/
 web_modules/
@@ -26,23 +25,23 @@ bower_components/
 !.yarn/versions
 
 # ---------- Next.js / build ----------
-.next                  # artefacto de build: nunca al repo
+.next
 out
 dist
 .output
 build/Release
 *.tsbuildinfo
-next-env.d.ts          # AÑADIDO ARION: Next lo regenera en cada dev/build
+next-env.d.ts
 
-# ---------- Logs y reportes (pueden volcar tokens en texto claro) ----------
+# ---------- Logs y reportes ----------
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+pnpm-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-pnpm-debug.log*        # AÑADIDO ARION: usamos pnpm como gestor
 
 # ---------- Runtime / cobertura / caches ----------
 pids
@@ -76,32 +75,27 @@ vite.config.ts.timestamp-*
 .stylelintcache
 .node_repl_history
 *.tgz
-.vercel                # AÑADIDO ARION: metadatos locales de despliegue
+.vercel
 
-# ---------- AÑADIDO ARION: caché de fuentes abiertas ----------
-# El adaptador de datos regenera esta carpeta; no debe versionarse.
+# ---------- Caché de fuentes abiertas ----------
 /src/data/cache/
 
-# ---------- AÑADIDO ARION: datos personales del estudiante ----------
-# Grabaciones de Speaking y progreso local = dato personal sensible.
+# ---------- Datos personales del estudiante ----------
 /public/recordings/
 *.webm
 *.sqlite
 *.db
 *.export.json
 
-# ---------- AÑADIDO ARION: material criptográfico ----------
+# ---------- Material criptográfico ----------
 *.pem
 *.key
 *.p12
 *.pfx
 
-# ---------- AÑADIDO ARION: SO y editores ----------
+# ---------- SO y editores ----------
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
-
-# NOTA: public/ SÍ se versiona (assets con licencia abierta);
-# solo se excluye /public/recordings/ (dato personal).
