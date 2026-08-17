@@ -17,10 +17,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: pnpm
+      # SIN "version": el action lee packageManager desde package.json.
+      # Fuente única de verdad → evita ERR_PNPM_BAD_PM_VERSION.
+      - name: pnpm (versión desde packageManager)
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       # Lockfile inmutable: cualquier deriva rompe el build temprano
       - name: Dependencias
