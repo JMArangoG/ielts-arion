@@ -1,0 +1,26 @@
+[
+  {
+    "id": "common-voice",
+    "nombre": "Mozilla Common Voice",
+    "url": "https://commonvoice.mozilla.org/es/datasets",
+    "licencia": "CC0-1.0",
+    "proposito": "Audio abierto con acentos reales para entrenar Listening",
+    "revisado": "2026-01-15"
+  },
+  {
+    "id": "tatoeba",
+    "nombre": "Tatoeba",
+    "url": "https://tatoeba.org/es/downloads",
+    "licencia": "CC-BY-2.0",
+    "proposito": "Frases paralelas ES-EN para vocabulario y repaso espaciado",
+    "revisado": "2026-01-15"
+  },
+  {
+    "id": "wiktionary-es",
+    "nombre": "Wikcionario (dump)",
+    "url": "https://dumps.wikimedia.org/eswiktionary/",
+    "licencia": "CC-BY-SA-4.0",
+    "proposito": "Definiciones y ejemplos para tarjetas de vocabulario",
+    "revisado": "2026-01-15"
+  }
+]
