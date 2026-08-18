@@ -34,3 +34,11 @@ Alcance: dato personal, accesibilidad y seguridad de la información.
 ## Pendientes
 - [ ] Política de privacidad visible en la app (M2).
 - [ ] Aviso de tratamiento de dato personal si alguna vez se persiste en servidor (no previsto).
+
+### INC-003 · Issue no cerrado automáticamente al fusionar en develop
+- Qué pasó: el PR de M1 usó "Closes #3" pero se fusionó contra `develop`;
+  GitHub solo cierra issues automáticamente al fusionar contra la rama por defecto (`main`).
+- Impacto: issue #3 quedó abierto hasta cierre manual.
+- Preventivo: al integrar en `develop`, cerrar el issue manualmente con
+  `gh issue close <n> --comment "..."`; el cierre automático operará cuando
+  `develop` se fusione en `main` (release).
