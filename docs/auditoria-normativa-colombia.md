@@ -42,3 +42,24 @@ Alcance: dato personal, accesibilidad y seguridad de la información.
 - Preventivo: al integrar en `develop`, cerrar el issue manualmente con
   `gh issue close <n> --comment "..."`; el cierre automático operará cuando
   `develop` se fusione en `main` (release).
+  ### INC-004 · Borrado de módulos existentes por agente no supervisado
+- Qué pasó: agente de IA (Qwen Coder) eliminó `src/lib/placement.ts`,
+  `src/app/onboarding/page.tsx` y `src/data/placement-bank.ts` durante refactor.
+- Impacto: module-not-found y TS2307 en build; restauración manual de módulos.
+- Corrección: restauración y recreación desde bloques auditados; incluido en PR de M2.
+- Preventivo: el agente propone, el humano aprueba; `git status --short` antes y después
+  de ejecutar el agente; `Test-Path` del módulo importado ante cualquier module-not-found.
+
+### INC-005 · Commit en rama base por checkout -b fallido
+- Qué pasó: `git checkout -b feat/M2-dashboard` falló (rama preexistente) y el commit
+  de M2 cayó en `develop`.
+- Impacto: PR sin diferencias ("No commits between…"); retrabajo.
+- Corrección: mover el commit a la rama (merge) y reset de develop a origin/develop.
+- Preventivo: `git branch --show-current` y `git branch --list` antes de crear ramas;
+  leer el encabezado del commit `[rama hash]` tras cada commit.
+
+### INC-006 · Duplicado de issues por reintento sin verificación
+- Qué pasó: `gh issue create` ejecutado varias veces para M2 y M3 sin `gh issue list` previo.
+- Impacto: issues duplicados cerrados como duplicate.
+- Preventivo: `gh issue list` siempre antes de crear; los marcadores `<n>` se sustituyen
+  por el número real sin signos angulares.
