@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { BANK } from "@/data/placement-bank";
 import {
   CLAVE_PERFIL,
@@ -145,12 +146,12 @@ export default function Onboarding() {
           <p className="mt-stack-sm text-arion-muted">
             Meta: banda {perfil?.bandaObjetivo}. En M2 verás tu plan adaptativo.
           </p>
-          <a
+                    <Link
             href="/"
             className="mt-stack-md inline-block rounded-panel bg-arion-primary px-stack-md py-stack-sm font-semibold text-arion-on-primary"
           >
             Volver al inicio
-          </a>
+          </Link>
         </div>
       </section>
     </main>

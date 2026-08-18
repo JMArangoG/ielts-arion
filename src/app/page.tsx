@@ -1,4 +1,5 @@
 // src/app/page.tsx — Home M0 + CTA a onboarding (M1)
+import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen px-edge py-stack-xl">
@@ -8,12 +9,12 @@ export default function Home() {
           <p className="mt-stack-sm text-arion-muted">
             Preparación gratuita e inclusiva para IELTS con IA adaptativa y pedagogía para adultos con TDAH.
           </p>
-          <a
+                    <Link
             href="/onboarding"
             className="mt-stack-md inline-block rounded-panel bg-arion-primary px-stack-md py-stack-sm font-semibold text-arion-on-primary"
           >
             Comenzar clasificación
-          </a>
+          </Link>
         </header>
         <div className="glass-panel flex flex-wrap gap-gutter p-stack-md">
           <span className="text-arion-primary">primary 6.1:1</span>
