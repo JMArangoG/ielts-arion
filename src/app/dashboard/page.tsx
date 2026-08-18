@@ -11,18 +11,17 @@ export default function Dashboard() {
   const [perfil, setPerfil] = useState<Perfil | null>(null);
   const [cargado, setCargado] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     const crudo = localStorage.getItem(CLAVE_PERFIL);
     if (crudo) {
       try {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setPerfil(JSON.parse(crudo) as Perfil);
       } catch {
-         
         setPerfil(null); // dato corrupto → tratar como ausente (robustez)
       }
     }
-     
+
     setCargado(true);
   }, []);
 
@@ -65,6 +64,13 @@ export default function Dashboard() {
             Estimado: {plan.semanasEstimadas} semanas con micro-sesiones diarias (pedagogía TDAH).
           </p>
         </header>
+
+        <Link
+          href="/practica"
+          className="self-start rounded-panel bg-arion-success px-stack-md py-stack-sm font-semibold text-arion-on-primary"
+        >
+          Ir a práctica
+        </Link>
 
         <div className="flex flex-col gap-gutter">
           {plan.actividades.map((a, i) => (
