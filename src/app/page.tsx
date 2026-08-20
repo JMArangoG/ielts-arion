@@ -1,28 +1,31 @@
-// src/app/page.tsx — Verificación M0: tokens ARION en uso real
+// =====================================================================
+// ARION · Home (M0 → M1)
+// Ubicación: src/app/page.tsx
+// Componente de servidor: HTML estático sin JS de shell.
+// Sin librerías de íconos externas → 0 requests adicionales (mejor LCP).
+// =====================================================================
+
+import PanelEtiquetas from "@/components/PanelEtiquetas";
+
+export const metadata = {
+  title: "ielts-arion · M0 listo",
+  description: "Preparación gratuita e inclusiva para IELTS",
+};
+
 export default function Home() {
   return (
-    // px-edge / py-stack-xl: márgenes fluidos responsivos sin media queries
-    <main className="min-h-screen px-edge py-stack-xl">
-      <section className="mx-auto flex max-w-3xl flex-col gap-stack-lg">
-        {/* glass-panel con padding tokenizado */}
-        <header className="glass-panel p-stack-lg">
-          <h1 className="text-3xl font-semibold text-arion-text">
-            ielts-arion · M0 listo
-          </h1>
-          <p className="mt-stack-sm text-arion-muted">
-            Tokens ARION activos: contraste AA/AAA, espaciado fluido y
-            glass-panel con fallback de transparencia reducida.
-          </p>
-        </header>
+    // max-w-6xl + mx-auto: lectura cómoda en desktop;
+    // margin-edge: margen lateral seguro en móvil (sistema ARION)
+    <main className="mx-auto w-full max-w-6xl px-[var(--margin-edge,1.25rem)] py-[var(--stack-5,3rem)]">
+      {/* Un solo <h1> por documento: jerarquía semántica correcta */}
+      <h1 className="text-3xl font-bold tracking-tight">IELTS ARION</h1>
+      <p className="mt-[var(--stack-2,0.75rem)] max-w-prose opacity-90">
+        Preparación gratuita e inclusiva para IELTS. Activa los módulos que quieras trabajar.
+      </p>
 
-        {/* Muestra de estados para verificación visual de contraste */}
-        <div className="glass-panel flex flex-wrap gap-gutter p-stack-md">
-          <span className="text-arion-primary">primary 6.1:1</span>
-          <span className="text-arion-success">success 8.2:1</span>
-          <span className="text-arion-warning">warning 9.0:1</span>
-          <span className="text-arion-danger">danger 6.3:1</span>
-        </div>
-      </section>
+      <div className="mt-[var(--stack-4,2rem)]">
+        <PanelEtiquetas />
+      </div>
     </main>
   );
 }
