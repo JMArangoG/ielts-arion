@@ -1,10 +1,8 @@
 // =====================================================================
-// ARION · Home (M0 → M1)
-// Ubicación: src/app/page.tsx
-// Componente de servidor: HTML estático sin JS de shell.
-// Sin librerías de íconos externas → 0 requests adicionales (mejor LCP).
+// ARION · Home — v3 adherencia estricta
+// Cambios: px-edge / py-stack-xl / mt-stack-* y text-arion-muted.
+// Servidor puro: 0 JS de shell, 0 íconos externos.
 // =====================================================================
-
 import PanelEtiquetas from "@/components/PanelEtiquetas";
 
 export const metadata = {
@@ -14,16 +12,14 @@ export const metadata = {
 
 export default function Home() {
   return (
-    // max-w-6xl + mx-auto: lectura cómoda en desktop;
-    // margin-edge: margen lateral seguro en móvil (sistema ARION)
-    <main className="mx-auto w-full max-w-6xl px-[var(--margin-edge,1.25rem)] py-[var(--stack-5,3rem)]">
-      {/* Un solo <h1> por documento: jerarquía semántica correcta */}
+    <main className="mx-auto w-full max-w-6xl px-edge py-stack-xl">
+      {/* Un solo h1: jerarquía semántica correcta */}
       <h1 className="text-3xl font-bold tracking-tight">IELTS ARION</h1>
-      <p className="mt-[var(--stack-2,0.75rem)] max-w-prose opacity-90">
+      <p className="mt-stack-md max-w-prose text-arion-muted">
         Preparación gratuita e inclusiva para IELTS. Activa los módulos que quieras trabajar.
       </p>
 
-      <div className="mt-[var(--stack-4,2rem)]">
+      <div className="mt-stack-lg">
         <PanelEtiquetas />
       </div>
     </main>

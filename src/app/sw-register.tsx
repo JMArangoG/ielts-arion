@@ -1,15 +1,25 @@
-// src/app/sw-register.tsx — registro del service worker (solo cliente y producción)
+// =====================================================================
+// src/app/sw-register.tsx — v2 registro diferido
+// Por qué: registrar el SW en mount compite con la hidratación por el
+// main-thread (TBT móvil). requestIdleCallback lo saca de la ruta
+// crítica; fallback setTimeout si no existe. Ajusta "/sw.js" si difiere.
+// =====================================================================
 "use client";
 
 import { useEffect } from "react";
 
 export default function SwRegister() {
   useEffect(() => {
-    // En dev el SW interfiere con HMR; solo producción
-    if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+    if (!("serviceWorker" in navigator)) return;
+    const registrar = () => {
       navigator.serviceWorker.register("/sw.js").catch(() => {
-        // fallo de SW no rompe la app (progresivo)
+        /* El SW es mejora progresiva: su fallo nunca rompe la app */
       });
+    };
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(registrar, { timeout: 2000 });
+    } else {
+      window.setTimeout(registrar, 1000);
     }
   }, []);
   return null;
