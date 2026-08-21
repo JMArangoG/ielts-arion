@@ -1,5 +1,5 @@
-// public/sw.js — cache-first del app shell (sin dato personal)
-const CACHE = "arion-v1";
+// public/sw.js â€” cache-first del app shell (sin dato personal)
+const CACHE = "ORION-v1";
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(["/"])));

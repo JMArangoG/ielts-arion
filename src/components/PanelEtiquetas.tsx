@@ -1,10 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ETIQUETAS } from "@/config/etiquetas";
 
-const STORAGE_KEY = "arion:modulos-activos:v1";
+const STORAGE_KEY = "ORION:modulos-activos:v1";
 
 export default function PanelEtiquetas() {
   const [activas, setActivas] = useState<string[]>([]);
@@ -50,10 +50,10 @@ export default function PanelEtiquetas() {
     return (
       <section aria-labelledby="titulo-modulos">
         <header className="flex items-baseline justify-between gap-gutter">
-          <h2 id="titulo-modulos" className="text-lg font-semibold text-arion-text">
+          <h2 id="titulo-modulos" className="text-lg font-semibold text-ORION-text">
             Módulos de preparación
           </h2>
-          <p className="text-sm text-arion-muted">Iniciando…</p>
+          <p className="text-sm text-ORION-muted">Iniciando…</p>
         </header>
         {/* Skeleton accesible con altura controlada */}
         <div className="mt-stack-lg grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
@@ -72,10 +72,10 @@ export default function PanelEtiquetas() {
   return (
     <section aria-labelledby="titulo-modulos">
       <header className="flex items-baseline justify-between gap-gutter">
-        <h2 id="titulo-modulos" className="text-lg font-semibold text-arion-text">
+        <h2 id="titulo-modulos" className="text-lg font-semibold text-ORION-text">
           Módulos de preparación
         </h2>
-        <p role="status" aria-live="polite" className="text-sm text-arion-muted">
+        <p role="status" aria-live="polite" className="text-sm text-ORION-muted">
           {activas.length} de {ETIQUETAS.length} activas
         </p>
       </header>
@@ -92,18 +92,18 @@ export default function PanelEtiquetas() {
                   aria-pressed={activa}
                   aria-label={`Activar o desactivar módulo ${e.nombre}`}
                   onClick={() => alternar(e.id)}
-                  className={`flex-1 text-left rounded-panel focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arion-primary motion-reduce:transition-none ${
-                    activa ? "ring-2 ring-arion-primary" : ""
+                  className={`flex-1 text-left rounded-panel focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ORION-primary motion-reduce:transition-none ${
+                    activa ? "ring-2 ring-ORION-primary" : ""
                   }`}
                 >
-                  <span className="block font-semibold text-arion-text">{e.nombre}</span>
-                  <span className="mt-stack-sm block text-sm text-arion-muted">{e.descripcion}</span>
+                  <span className="block font-semibold text-ORION-text">{e.nombre}</span>
+                  <span className="mt-stack-sm block text-sm text-ORION-muted">{e.descripcion}</span>
                 </button>
 
                 <Link
                   href={`/modulos/${e.id}`}
                   aria-label={`Entrar al módulo ${e.nombre}`}
-                  className="self-end text-sm text-arion-primary underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arion-primary"
+                  className="self-end text-sm text-ORION-primary underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ORION-primary"
                 >
                   Entrar →
                 </Link>
@@ -115,3 +115,4 @@ export default function PanelEtiquetas() {
     </section>
   );
 }
+

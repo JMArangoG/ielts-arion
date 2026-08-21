@@ -1,9 +1,9 @@
-﻿// =====================================================================
-// ARION · Capa de persistencia — localStorage con tipado seguro
+// =====================================================================
+// ORION · Capa de persistencia — localStorage con tipado seguro
 // Por qué: centraliza keys, validación de esquema y manejo de errores
 // (SSR, quota, privacidad) sin ensuciar componentes con try/catch.
 // =====================================================================
-const STORAGE_KEY = "arion:modulos-activos:v1";
+const STORAGE_KEY = "ORION:modulos-activos:v1";
 
 export function cargarModulosActivos(): string[] {
   if (typeof window === "undefined") return []; // SSR seguro
@@ -26,6 +26,6 @@ export function guardarModulosActivos(ids: string[]): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   } catch {
     // Quota excedida o modo privacidad: no romper la UX
-    console.warn("ARION: no se pudo persistir módulos activos");
+    console.warn("ORION: no se pudo persistir módulos activos");
   }
 }

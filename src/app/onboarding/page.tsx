@@ -1,4 +1,4 @@
-// src/app/onboarding/page.tsx — M1: consentimiento + meta + clasificación adaptativa
+// src/app/onboarding/page.tsx â€” M1: consentimiento + meta + clasificaciÃ³n adaptativa
 "use client";
 
 import { useState } from "react";
@@ -39,7 +39,7 @@ export default function Onboarding() {
         nivelInicial: estimarBanda(nuevoHistorial),
         fecha: new Date().toISOString(),
       };
-      // Dato solo en dispositivo (Ley 1581 de 2012: minimización)
+      // Dato solo en dispositivo (Ley 1581 de 2012: minimizaciÃ³n)
       localStorage.setItem(CLAVE_PERFIL, JSON.stringify(p));
       setPerfil(p);
       setPaso("resultado");
@@ -53,23 +53,23 @@ export default function Onboarding() {
       <main className="min-h-screen px-edge py-stack-xl">
         <section className="mx-auto flex max-w-2xl flex-col gap-stack-lg">
           <header className="glass-panel p-stack-lg">
-            <h1 className="text-2xl font-semibold text-arion-text">Bienvenido/a a ielts-arion</h1>
-            <p className="mt-stack-sm text-arion-muted">
-              Preparación gratuita para IELTS con pedagogía autogestionada para adultos con TDAH.
+            <h1 className="text-2xl font-semibold text-ORION-text">Bienvenido/a a ielts-ORION</h1>
+            <p className="mt-stack-sm text-ORION-muted">
+              PreparaciÃ³n gratuita para IELTS con pedagogÃ­a autogestionada para adultos con TDAH.
             </p>
           </header>
           <div className="glass-panel p-stack-lg">
-            <h2 className="text-lg font-semibold text-arion-text">Consentimiento informado</h2>
-            <p className="mt-stack-sm text-arion-muted">
+            <h2 className="text-lg font-semibold text-ORION-text">Consentimiento informado</h2>
+            <p className="mt-stack-sm text-ORION-muted">
               Tu progreso se guarda solo en este dispositivo (Ley 1581 de 2012, principio de
-              minimización). No creamos cuentas ni enviamos datos personales a servidores.
+              minimizaciÃ³n). No creamos cuentas ni enviamos datos personales a servidores.
             </p>
             <button
               type="button"
               onClick={() => setPaso("meta")}
-              className="mt-stack-md rounded-panel bg-arion-primary px-stack-md py-stack-sm font-semibold text-arion-on-primary"
+              className="mt-stack-md rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
             >
-              Acepto y continúo
+              Acepto y continÃºo
             </button>
           </div>
         </section>
@@ -82,14 +82,14 @@ export default function Onboarding() {
       <main className="min-h-screen px-edge py-stack-xl">
         <section className="mx-auto max-w-2xl">
           <div className="glass-panel p-stack-lg">
-            <label htmlFor="banda" className="text-lg font-semibold text-arion-text">
-              ¿Qué banda overall necesitas?
+            <label htmlFor="banda" className="text-lg font-semibold text-ORION-text">
+              Â¿QuÃ© banda overall necesitas?
             </label>
             <select
               id="banda"
               value={bandaObjetivo}
               onChange={(e) => setBandaObjetivo(Number(e.target.value))}
-              className="mt-stack-md block w-full rounded-panel border border-arion-muted bg-arion-surface-2 px-stack-md py-stack-sm text-arion-text"
+              className="mt-stack-md block w-full rounded-panel border border-ORION-muted bg-ORION-surface-2 px-stack-md py-stack-sm text-ORION-text"
             >
               {[5, 5.5, 6, 6.5, 7, 7.5, 8].map((b) => (
                 <option key={b} value={b}>{b}</option>
@@ -98,9 +98,9 @@ export default function Onboarding() {
             <button
               type="button"
               onClick={() => setPaso("examen")}
-              className="mt-stack-md rounded-panel bg-arion-primary px-stack-md py-stack-sm font-semibold text-arion-on-primary"
+              className="mt-stack-md rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
             >
-              Iniciar examen de clasificación
+              Iniciar examen de clasificaciÃ³n
             </button>
           </div>
         </section>
@@ -113,15 +113,15 @@ export default function Onboarding() {
       <main className="min-h-screen px-edge py-stack-xl">
         <section className="mx-auto max-w-2xl">
           <div className="glass-panel p-stack-lg">
-            <p className="text-arion-muted">Ítem {historial.length + 1} de 4 · habilidad: reading</p>
-            <h1 className="mt-stack-sm text-xl font-semibold text-arion-text">{item.q}</h1>
+            <p className="text-ORION-muted">Ãtem {historial.length + 1} de 4 Â· habilidad: reading</p>
+            <h1 className="mt-stack-sm text-xl font-semibold text-ORION-text">{item.q}</h1>
             <div className="mt-stack-md flex flex-col gap-stack-sm" role="group" aria-label="Opciones de respuesta">
               {item.options.map((op, i) => (
                 <button
                   key={op}
                   type="button"
                   onClick={() => responder(i)}
-                  className="rounded-panel border border-arion-muted bg-arion-surface-2 px-stack-md py-stack-sm text-left text-arion-text hover:border-arion-primary"
+                  className="rounded-panel border border-ORION-muted bg-ORION-surface-2 px-stack-md py-stack-sm text-left text-ORION-text hover:border-ORION-primary"
                 >
                   {op}
                 </button>
@@ -137,16 +137,16 @@ export default function Onboarding() {
     <main className="min-h-screen px-edge py-stack-xl">
       <section className="mx-auto max-w-2xl">
         <div className="glass-panel p-stack-lg">
-          <h1 className="text-2xl font-semibold text-arion-text">Clasificación completada</h1>
-          <p className="mt-stack-md text-arion-text">
-            Nivel inicial estimado: <strong className="text-arion-success">banda {perfil?.nivelInicial}</strong>
+          <h1 className="text-2xl font-semibold text-ORION-text">ClasificaciÃ³n completada</h1>
+          <p className="mt-stack-md text-ORION-text">
+            Nivel inicial estimado: <strong className="text-ORION-success">banda {perfil?.nivelInicial}</strong>
           </p>
-          <p className="mt-stack-sm text-arion-muted">
-            Meta: banda {perfil?.bandaObjetivo}. En M2 verás tu plan adaptativo.
+          <p className="mt-stack-sm text-ORION-muted">
+            Meta: banda {perfil?.bandaObjetivo}. En M2 verÃ¡s tu plan adaptativo.
           </p>
           <Link
             href="/"
-            className="mt-stack-md inline-block rounded-panel bg-arion-primary px-stack-md py-stack-sm font-semibold text-arion-on-primary"
+            className="mt-stack-md inline-block rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
           >
             Volver al inicio
           </Link>
