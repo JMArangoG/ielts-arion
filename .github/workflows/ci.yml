@@ -15,7 +15,7 @@ jobs:
       - name: Node 20 LTS
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       # SIN "version": el action lee packageManager desde package.json.
       # Fuente única de verdad → evita ERR_PNPM_BAD_PM_VERSION.
