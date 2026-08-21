@@ -1,4 +1,4 @@
-// src/app/repaso/page.tsx â€” M4: sesiÃ³n diaria de repaso espaciado
+// src/app/repaso/page.tsx — M4: sesión diaria de repaso espaciado
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ export default function Repaso() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSrs(t);
      
-    setCola(vencidas(t, PRACTICA.map((p) => p.id)).slice(0, 6)); // sesiÃ³n mÃ¡x. 6
+    setCola(vencidas(t, PRACTICA.map((p) => p.id)).slice(0, 6)); // sesión máx. 6
   }, []);
 
   const responder = (id: string, recordada: boolean) => {
@@ -43,20 +43,20 @@ export default function Repaso() {
                   onClick={() => responder(actual.id, true)}
                   className="rounded-panel bg-ORION-success px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
                 >
-                  La recordÃ©
+                  La recordé
                 </button>
                 <button
                   type="button"
                   onClick={() => responder(actual.id, false)}
                   className="rounded-panel bg-ORION-danger px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
                 >
-                  La olvidÃ©
+                  La olvidé
                 </button>
               </div>
             </>
           ) : (
             <p className="mt-stack-md text-ORION-muted">
-              Sin repasos pendientes hoy. Vuelve maÃ±ana o practica nuevas actividades.
+              Sin repasos pendientes hoy. Vuelve mañana o practica nuevas actividades.
             </p>
           )}
           <div className="mt-stack-md flex flex-wrap gap-gutter">
@@ -64,7 +64,7 @@ export default function Repaso() {
               href="/practica"
               className="rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-primary"
             >
-              Ir a prÃ¡ctica
+              Ir a práctica
             </Link>
             <Link
               href="/dashboard"
