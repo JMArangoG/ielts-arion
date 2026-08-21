@@ -1,0 +1,10 @@
+{
+  "name": "ielts-arion",
+  "short_name": "arion",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#26282B",
+  "theme_color": "#26282B",
+  "lang": "es",
+  "icons": []
+}

@@ -1,4 +1,8 @@
-/* src/app/globals.css — Base ARION sobre Tailwind v4 (config CSS-first) */
+/* =====================================================================
+   src/app/globals.css — Base ARION sobre Tailwind v4 (CSS-first)
+   Cambio v3 (rendimiento): sin backdrop-filter <640px → libera GPU
+   móvil y adelanta el paint del LCP. Resto de tokens intacto.
+   ===================================================================== */
 @import "tailwindcss";
 
 /* ---------- Tokens ARION: fuente única auditable ----------
@@ -16,7 +20,8 @@
   --color-arion-warning: #F2C063;
   --color-arion-danger: #F08C8C;
 
-  /* Espaciado responsivo ARION: clamp() anticipa quiebres móvil→escritorio */
+  /* Tailwind v4 genera utilidades nativas: px-edge, gap-gutter,
+     mt-stack-md… con clamp() responsivo incluido */
   --spacing-edge: clamp(1rem, 4vw, 3rem);
   --spacing-gutter: clamp(0.75rem, 2vw, 1.5rem);
   --spacing-stack-sm: 0.5rem;
@@ -24,7 +29,6 @@
   --spacing-stack-lg: 1.5rem;
   --spacing-stack-xl: 2.5rem;
 
-  /* Radio estándar de paneles */
   --radius-panel: 1rem;
 }
 
@@ -44,19 +48,19 @@ body {
   border: 1px solid rgb(255 255 255 / 0.08);
   border-radius: var(--radius-panel);
 }
+/* Móvil: sin blur → GPU libre, paint LCP más temprano */
+@media (max-width: 640px) {
+  .glass-panel { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
 @media (prefers-reduced-transparency: reduce) {
   .glass-panel {
     background: var(--color-arion-surface-2);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
   }
 }
 
 /* ---------- Foco visible global (WCAG 2.4.7) ---------- */
-:focus-visible {
-  outline: 2px solid var(--color-arion-primary);
-  outline-offset: 2px;
-}
+:focus-visible { outline: 2px solid var(--color-arion-primary); outline-offset: 2px; }
 
 /* ---------- Movimiento reducido (WCAG 2.3.3) ---------- */
 @media (prefers-reduced-motion: reduce) {

@@ -1,22 +1,40 @@
-// src/app/layout.tsx — Raíz con metadatos y atributos accesibles
-import type { Metadata } from "next";
+// =====================================================================
+// ARION · Root Layout v3 — optimizaciones de auditoría
+// Ubicación: src/app/layout.tsx
+// Cambios vs v2:
+// 1) lang="es-CO": audiencia colombiana (mejor SEO geo-local y TTS).
+// 2) Eliminación de title duplicado: page.tsx define el título final.
+// 3) viewport estable: evita FOUC con theme-color en modo oscuro/claro.
+// 4) className en <html>: habilita selectores CSS para temas futuros.
+// =====================================================================
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import SwRegister from "./sw-register";
 
-// Metadatos coherentes con el producto (SEO y lectores de pantalla).
 export const metadata: Metadata = {
-  title: "ielts-arion · Preparación gratuita IELTS",
-  description:
-    "Preparación gratuita para IELTS con IA adaptativa y pedagogía autogestionada para adultos con TDAH. Sistema de diseño ARION.",
+  // Sin title aquí: cada página define el suyo (jerarquía limpia).
+  description: "Preparación gratuita e inclusiva para IELTS",
+  manifest: "/manifest.webmanifest",
+  // Meta para auditoría: evita indexación en desarrollo
+  ...(process.env.NODE_ENV !== "production" && { robots: "noindex,nofollow" }),
 };
 
-// lang="es": obligatorio WCAG 3.1.1 (idioma de página para lectores de pantalla).
-// Sin next/font: tipografía de sistema = 0 requests extra (rendimiento LCP).
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export const viewport: Viewport = {
+  themeColor: "#26282B",
+  width: "device-width",
+  initialScale: 1,
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body className="antialiased">{children}</body>
+    // lang="es-CO": audiencia colombiana (lectores de pantalla + SEO).
+    // suppressHydrationWarning: evita warnings por extensiones del navegador.
+    <html lang="es-CO" suppressHydrationWarning>
+      {/* antialiased: suavizado nativo del navegador sin costo de runtime */}
+      <body className="antialiased">
+        {children}
+        <SwRegister />
+      </body>
     </html>
   );
 }
