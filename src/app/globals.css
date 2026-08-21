@@ -1,27 +1,27 @@
 /* =====================================================================
-   src/app/globals.css — Base ARION sobre Tailwind v4 (CSS-first)
-   Cambio v3 (rendimiento): sin backdrop-filter <640px → libera GPU
-   móvil y adelanta el paint del LCP. Resto de tokens intacto.
+   src/app/globals.css â€” Base ORION sobre Tailwind v4 (CSS-first)
+   Cambio v3 (rendimiento): sin backdrop-filter <640px â†’ libera GPU
+   mÃ³vil y adelanta el paint del LCP. Resto de tokens intacto.
    ===================================================================== */
 @import "tailwindcss";
 
-/* ---------- Tokens ARION: fuente única auditable ----------
-   Contrastes sobre arion-surface (WCAG 2.2):
-   text 13.5:1 AAA · muted 6.7:1 AA · primary 6.1:1 AA ·
-   on-primary 7.8:1 · success 8.2:1 · warning 9.0:1 · danger 6.3:1 */
+/* ---------- Tokens ORION: fuente Ãºnica auditable ----------
+   Contrastes sobre ORION-surface (WCAG 2.2):
+   text 13.5:1 AAA Â· muted 6.7:1 AA Â· primary 6.1:1 AA Â·
+   on-primary 7.8:1 Â· success 8.2:1 Â· warning 9.0:1 Â· danger 6.3:1 */
 @theme {
-  --color-arion-surface: #26282B;
-  --color-arion-surface-2: #2E3134;
-  --color-arion-text: #F2F5F8;
-  --color-arion-muted: #A8AFB7;
-  --color-arion-primary: #6EA8FE;
-  --color-arion-on-primary: #0B1220;
-  --color-arion-success: #63D69B;
-  --color-arion-warning: #F2C063;
-  --color-arion-danger: #F08C8C;
+  --color-ORION-surface: #26282B;
+  --color-ORION-surface-2: #2E3134;
+  --color-ORION-text: #F2F5F8;
+  --color-ORION-muted: #A8AFB7;
+  --color-ORION-primary: #6EA8FE;
+  --color-ORION-on-primary: #0B1220;
+  --color-ORION-success: #63D69B;
+  --color-ORION-warning: #F2C063;
+  --color-ORION-danger: #F08C8C;
 
   /* Tailwind v4 genera utilidades nativas: px-edge, gap-gutter,
-     mt-stack-md… con clamp() responsivo incluido */
+     mt-stack-mdâ€¦ con clamp() responsivo incluido */
   --spacing-edge: clamp(1rem, 4vw, 3rem);
   --spacing-gutter: clamp(0.75rem, 2vw, 1.5rem);
   --spacing-stack-sm: 0.5rem;
@@ -32,35 +32,35 @@
   --radius-panel: 1rem;
 }
 
-/* ---------- Base de color y tipografía (0 webfonts → LCP < 2.5 s) ---------- */
+/* ---------- Base de color y tipografÃ­a (0 webfonts â†’ LCP < 2.5 s) ---------- */
 html { color-scheme: dark; }
 body {
-  background: var(--color-arion-surface);
-  color: var(--color-arion-text);
+  background: var(--color-ORION-surface);
+  color: var(--color-ORION-text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 /* ---------- glass-panel con fallback accesible ---------- */
 .glass-panel {
-  background: color-mix(in srgb, var(--color-arion-surface-2) 80%, transparent);
+  background: color-mix(in srgb, var(--color-ORION-surface-2) 80%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgb(255 255 255 / 0.08);
   border-radius: var(--radius-panel);
 }
-/* Móvil: sin blur → GPU libre, paint LCP más temprano */
+/* MÃ³vil: sin blur â†’ GPU libre, paint LCP mÃ¡s temprano */
 @media (max-width: 640px) {
   .glass-panel { backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .glass-panel {
-    background: var(--color-arion-surface-2);
+    background: var(--color-ORION-surface-2);
     backdrop-filter: none; -webkit-backdrop-filter: none;
   }
 }
 
 /* ---------- Foco visible global (WCAG 2.4.7) ---------- */
-:focus-visible { outline: 2px solid var(--color-arion-primary); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--color-ORION-primary); outline-offset: 2px; }
 
 /* ---------- Movimiento reducido (WCAG 2.3.3) ---------- */
 @media (prefers-reduced-motion: reduce) {

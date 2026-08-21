@@ -1,4 +1,4 @@
-// src/app/repaso/page.tsx — M4: sesión diaria de repaso espaciado
+// src/app/repaso/page.tsx â€” M4: sesiÃ³n diaria de repaso espaciado
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ export default function Repaso() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSrs(t);
      
-    setCola(vencidas(t, PRACTICA.map((p) => p.id)).slice(0, 6)); // sesión máx. 6
+    setCola(vencidas(t, PRACTICA.map((p) => p.id)).slice(0, 6)); // sesiÃ³n mÃ¡x. 6
   }, []);
 
   const responder = (id: string, recordada: boolean) => {
@@ -31,44 +31,44 @@ export default function Repaso() {
     <main className="min-h-screen px-edge py-stack-xl">
       <section className="mx-auto max-w-2xl">
         <div className="glass-panel p-stack-lg">
-          <h1 className="text-2xl font-semibold text-arion-text">Repaso espaciado</h1>
+          <h1 className="text-2xl font-semibold text-ORION-text">Repaso espaciado</h1>
           {actual ? (
             <>
-              <p className="mt-stack-sm text-arion-muted">Pendientes: {cola.length}</p>
-              <h2 className="mt-stack-md text-xl font-semibold text-arion-text">{actual.titulo}</h2>
-              <p className="mt-stack-sm text-arion-muted">{actual.instrucciones[0]}</p>
+              <p className="mt-stack-sm text-ORION-muted">Pendientes: {cola.length}</p>
+              <h2 className="mt-stack-md text-xl font-semibold text-ORION-text">{actual.titulo}</h2>
+              <p className="mt-stack-sm text-ORION-muted">{actual.instrucciones[0]}</p>
               <div className="mt-stack-md flex flex-wrap gap-gutter">
                 <button
                   type="button"
                   onClick={() => responder(actual.id, true)}
-                  className="rounded-panel bg-arion-success px-stack-md py-stack-sm font-semibold text-arion-on-primary"
+                  className="rounded-panel bg-ORION-success px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
                 >
-                  La recordé
+                  La recordÃ©
                 </button>
                 <button
                   type="button"
                   onClick={() => responder(actual.id, false)}
-                  className="rounded-panel bg-arion-danger px-stack-md py-stack-sm font-semibold text-arion-on-primary"
+                  className="rounded-panel bg-ORION-danger px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
                 >
-                  La olvidé
+                  La olvidÃ©
                 </button>
               </div>
             </>
           ) : (
-            <p className="mt-stack-md text-arion-muted">
-              Sin repasos pendientes hoy. Vuelve mañana o practica nuevas actividades.
+            <p className="mt-stack-md text-ORION-muted">
+              Sin repasos pendientes hoy. Vuelve maÃ±ana o practica nuevas actividades.
             </p>
           )}
           <div className="mt-stack-md flex flex-wrap gap-gutter">
             <Link
               href="/practica"
-              className="rounded-panel border border-arion-muted px-stack-md py-stack-sm text-arion-text hover:border-arion-primary"
+              className="rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-primary"
             >
-              Ir a práctica
+              Ir a prÃ¡ctica
             </Link>
             <Link
               href="/dashboard"
-              className="rounded-panel border border-arion-muted px-stack-md py-stack-sm text-arion-text hover:border-arion-primary"
+              className="rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-primary"
             >
               Volver al dashboard
             </Link>

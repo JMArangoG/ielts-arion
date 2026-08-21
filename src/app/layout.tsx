@@ -1,9 +1,9 @@
 // =====================================================================
-// ARION · Root Layout v3 — optimizaciones de auditoría
-// Ubicación: src/app/layout.tsx
+// ORION Â· Root Layout v3 â€” optimizaciones de auditorÃ­a
+// UbicaciÃ³n: src/app/layout.tsx
 // Cambios vs v2:
 // 1) lang="es-CO": audiencia colombiana (mejor SEO geo-local y TTS).
-// 2) Eliminación de title duplicado: page.tsx define el título final.
+// 2) EliminaciÃ³n de title duplicado: page.tsx define el tÃ­tulo final.
 // 3) viewport estable: evita FOUC con theme-color en modo oscuro/claro.
 // 4) className en <html>: habilita selectores CSS para temas futuros.
 // =====================================================================
@@ -12,10 +12,10 @@ import "./globals.css";
 import SwRegister from "./sw-register";
 
 export const metadata: Metadata = {
-  // Sin title aquí: cada página define el suyo (jerarquía limpia).
-  description: "Preparación gratuita e inclusiva para IELTS",
+  // Sin title aquÃ­: cada pÃ¡gina define el suyo (jerarquÃ­a limpia).
+  description: "PreparaciÃ³n gratuita e inclusiva para IELTS",
   manifest: "/manifest.webmanifest",
-  // Meta para auditoría: evita indexación en desarrollo
+  // Meta para auditorÃ­a: evita indexaciÃ³n en desarrollo
   ...(process.env.NODE_ENV !== "production" && { robots: "noindex,nofollow" }),
 };
 

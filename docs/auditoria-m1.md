@@ -1,4 +1,4 @@
-﻿# Auditoría de rendimiento y accesibilidad — M1 (ielts-arion)
+# Auditoría de rendimiento y accesibilidad — M1 (ielts-ORION)
 
 Herramienta: Lighthouse (DevTools) · Modo Navigation · Build de producción
 (`pnpm build && pnpm start`) · Dispositivos: Mobile (emulado) y Desktop.
@@ -28,7 +28,7 @@ Herramienta: Lighthouse (DevTools) · Modo Navigation · Build de producción
    - blur de `glass-panel` desactivado <640 px → GPU móvil liberada.
    - Service Worker diferido con `requestIdleCallback` → fuera de ruta crítica.
    - `browserslist` moderno → −13.4 KiB de polyfills legacy.
-   - Tokens ARION con contrastes documentados (AA/AAA) en `globals.css`.
+   - Tokens ORION con contrastes documentados (AA/AAA) en `globals.css`.
 3. Accessibility/SEO/Best Practices en 100: cumplimiento WCAG 2.2 AA,
    alineado con Ley 1680/2013 (Colombia) y directrices MinTIC de
    accesibilidad web.
@@ -38,3 +38,4 @@ Herramienta: Lighthouse (DevTools) · Modo Navigation · Build de producción
 Se acepta Performance mobile 88 con A/BP/SEO 100 como rango justificado de M1.
 Re-auditar en M2 al introducir navegación por módulos y persistencia,
 para verificar que no haya regresión sobre esta línea base.
+

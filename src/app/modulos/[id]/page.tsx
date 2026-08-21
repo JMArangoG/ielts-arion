@@ -1,5 +1,5 @@
-﻿// =====================================================================
-// ARION · Página de módulo — placeholder M2
+// =====================================================================
+// ORION · Página de módulo — placeholder M2
 // Ubicación: src/app/modulos/[id]/page.tsx
 // Por qué: routing dinámico de Next.js; [id] = listening, reading, etc.
 // =====================================================================
@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const modulo = ETIQUETAS.find((e) => e.id === id);
   if (!modulo) return { title: "Módulo no encontrado" };
   return {
-    title: `ielts-arion · ${modulo.nombre}`,
+    title: `ielts-ORION · ${modulo.nombre}`,
     description: modulo.descripcion,
   };
 }
@@ -27,20 +27,20 @@ export default async function ModuloPage({ params }: { params: Promise<{ id: str
     <main className="mx-auto w-full max-w-6xl px-edge py-stack-xl">
       {/* Breadcrumb accesible: jerarquía clara */}
       <nav aria-label="Breadcrumb" className="mb-stack-lg">
-        <ol className="flex gap-gutter text-sm text-arion-muted">
+        <ol className="flex gap-gutter text-sm text-ORION-muted">
           <li><Link href="/" className="hover:underline">Inicio</Link></li>
           <li aria-hidden="true">/</li>
-          <li aria-current="page" className="text-arion-text">{modulo.nombre}</li>
+          <li aria-current="page" className="text-ORION-text">{modulo.nombre}</li>
         </ol>
       </nav>
 
       <h1 className="text-3xl font-bold tracking-tight">{modulo.nombre}</h1>
-      <p className="mt-stack-md max-w-prose text-arion-muted">{modulo.descripcion}</p>
+      <p className="mt-stack-md max-w-prose text-ORION-muted">{modulo.descripcion}</p>
 
       {/* Placeholder M2: aquí irán ejercicios, audio, etc. */}
       <div className="mt-stack-xl glass-panel p-stack-lg">
         <h2 className="text-xl font-semibold">Contenido en desarrollo</h2>
-        <p className="mt-stack-md text-arion-muted">
+        <p className="mt-stack-md text-ORION-muted">
           Este módulo estará disponible en el siguiente hito. Mientras tanto,
           puedes activarlo/desactivarlo desde el panel principal.
         </p>

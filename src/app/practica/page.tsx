@@ -1,4 +1,4 @@
-// src/app/practica/page.tsx — M3: práctica de 4 habilidades con fuentes abiertas
+// src/app/practica/page.tsx â€” M3: prÃ¡ctica de 4 habilidades con fuentes abiertas
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,8 +8,8 @@ import { PRACTICA } from "@/data/practica-bank";
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 type Skill = (typeof SKILLS)[number];
 
-// Progreso solo en el dispositivo (minimización, Ley 1581 de 2012)
-const CLAVE_PROGRESO = "arion:progreso";
+// Progreso solo en el dispositivo (minimizaciÃ³n, Ley 1581 de 2012)
+const CLAVE_PROGRESO = "ORION:progreso";
 
 export default function Practica() {
   const [skill, setSkill] = useState<Skill>("listening");
@@ -21,7 +21,7 @@ export default function Practica() {
       setHechas(JSON.parse(localStorage.getItem(CLAVE_PROGRESO) ?? "[]") as string[]);
     } catch {
        
-      setHechas([]); // dato corrupto → inicio limpio (robustez)
+      setHechas([]); // dato corrupto â†’ inicio limpio (robustez)
     }
   }, []);
 
@@ -37,9 +37,9 @@ export default function Practica() {
     <main className="min-h-screen px-edge py-stack-xl">
       <section className="mx-auto flex max-w-3xl flex-col gap-stack-lg">
         <header className="glass-panel p-stack-lg">
-          <h1 className="text-2xl font-semibold text-arion-text">Práctica por habilidad</h1>
-          <p className="mt-stack-sm text-arion-muted">
-            Micro-sesiones de 5–15 min con fuentes abiertas verificadas.
+          <h1 className="text-2xl font-semibold text-ORION-text">PrÃ¡ctica por habilidad</h1>
+          <p className="mt-stack-sm text-ORION-muted">
+            Micro-sesiones de 5â€“15 min con fuentes abiertas verificadas.
           </p>
         </header>
 
@@ -52,8 +52,8 @@ export default function Practica() {
               aria-pressed={skill === s}
               className={
                 skill === s
-                  ? "rounded-panel bg-arion-primary px-stack-md py-stack-sm font-semibold text-arion-on-primary"
-                  : "rounded-panel border border-arion-muted px-stack-md py-stack-sm text-arion-text hover:border-arion-primary"
+                  ? "rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
+                  : "rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-primary"
               }
             >
               {s}
@@ -65,19 +65,19 @@ export default function Practica() {
           {visibles.map((a) => (
             <article key={a.id} className="glass-panel p-stack-md">
               <div className="flex flex-wrap items-baseline justify-between gap-gutter">
-                <h2 className="text-lg font-semibold text-arion-text">{a.titulo}</h2>
-                <span className="text-arion-warning">{a.minutos} min</span>
+                <h2 className="text-lg font-semibold text-ORION-text">{a.titulo}</h2>
+                <span className="text-ORION-warning">{a.minutos} min</span>
               </div>
-              <ol className="mt-stack-sm list-decimal pl-stack-lg text-arion-muted">
+              <ol className="mt-stack-sm list-decimal pl-stack-lg text-ORION-muted">
                 {a.instrucciones.map((paso) => (
                   <li key={paso}>{paso}</li>
                 ))}
               </ol>
               {a.fuente && (
-                <p className="mt-stack-sm text-arion-muted">
+                <p className="mt-stack-sm text-ORION-muted">
                   Fuente:{" "}
                   <a
-                    className="text-arion-primary underline"
+                    className="text-ORION-primary underline"
                     href={a.fuente.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -92,11 +92,11 @@ export default function Practica() {
                 onClick={() => marcar(a.id)}
                 className={
                   hechas.includes(a.id)
-                    ? "mt-stack-md rounded-panel bg-arion-success px-stack-md py-stack-sm font-semibold text-arion-on-primary"
-                    : "mt-stack-md rounded-panel border border-arion-muted px-stack-md py-stack-sm text-arion-text hover:border-arion-success"
+                    ? "mt-stack-md rounded-panel bg-ORION-success px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
+                    : "mt-stack-md rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-success"
                 }
               >
-                {hechas.includes(a.id) ? "Completada ✓" : "Marcar completada"}
+                {hechas.includes(a.id) ? "Completada âœ“" : "Marcar completada"}
               </button>
             </article>
           ))}
@@ -104,7 +104,7 @@ export default function Practica() {
 
         <Link
           href="/dashboard"
-          className="self-start rounded-panel border border-arion-muted px-stack-md py-stack-sm text-arion-text hover:border-arion-primary"
+          className="self-start rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-primary"
         >
           Volver al dashboard
         </Link>
