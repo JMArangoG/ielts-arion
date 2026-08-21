@@ -14,7 +14,7 @@ export default function Repaso() {
     const t = cargarSRS();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSrs(t);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+     
     setCola(vencidas(t, PRACTICA.map((p) => p.id)).slice(0, 6)); // sesión máx. 6
   }, []);
 

@@ -1,50 +1,68 @@
-﻿// =====================================================================
-// ARION · Panel interactivo — v4 (persistencia + navegación)
-// Cambios:
-// 1) Carga inicial desde localStorage (hidratación SSR-safe).
-// 2) Cada tarjeta navega a /modulos/[id] con <Link> envuelto en <button>
-//    (accesibilidad: un solo foco, navegación por teclado intacta).
-// 3) Persistencia en cada alternancia (debounce no necesario: 15 items).
-// =====================================================================
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ETIQUETAS } from "@/config/etiquetas";
-import { cargarModulosActivos, guardarModulosActivos } from "@/lib/storage";
+
+const STORAGE_KEY = "arion:modulos-activos:v1";
 
 export default function PanelEtiquetas() {
-  // Estado inicial vacío; se hidrata en useEffect (SSR-safe)
   const [activas, setActivas] = useState<string[]>([]);
-  const [hidratado, setHidratado] = useState(false);
+  const [listo, setListo] = useState(false);
 
-  // Carga desde localStorage (solo cliente)
+  // Cargar al montar (solo cliente)
   useEffect(() => {
-    const cargadas = cargarModulosActivos();
-    setActivas(cargadas);
-    setHidratado(true);
+    // Hidratación única desde localStorage tras el montaje (solo cliente).
+    // Dependencias vacías []: una sola ejecución, sin bucles posibles.
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- hidratación única post-montaje, sin bucle
+          setActivas(parsed);
+        }
+      }
+    } catch {
+      // Dato corrupto → estado por defecto (robustez); sin ruido en consola
+    }
+     
+    setListo(true);
   }, []);
 
-  // Persistencia en cada cambio
+  // Guardar cada vez que cambien (sin logs en producción)
   useEffect(() => {
-    if (!hidratado) return;
-    guardarModulosActivos(activas);
-  }, [activas, hidratado]);
+    if (!listo) return; // espera la hidratación antes de persistir
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(activas));
+    } catch {
+      // Fallo silencioso: persistencia local es no-crítica (robustez)
+    }
+  }, [activas, listo]);
 
-  const alternar = (id: string) =>
-    setActivas(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+  const alternar = (id: string) => {
+    setActivas((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
 
-  if (!hidratado) {
-    // Skeleton accesible: evita layout shift (CLS)
+  if (!listo) {
     return (
       <section aria-labelledby="titulo-modulos">
         <header className="flex items-baseline justify-between gap-gutter">
-          <h2 id="titulo-modulos" className="text-lg font-semibold">Módulos de preparación</h2>
-          <p className="text-sm text-arion-muted">Cargando…</p>
+          <h2 id="titulo-modulos" className="text-lg font-semibold text-arion-text">
+            Módulos de preparación
+          </h2>
+          <p className="text-sm text-arion-muted">Iniciando…</p>
         </header>
-        <div className="mt-stack-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter">
+        {/* Skeleton accesible con altura controlada */}
+        <div className="mt-stack-lg grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {ETIQUETAS.map((e) => (
-            <div key={e.id} className="glass-panel h-[120px] animate-pulse" />
+            <div
+              key={e.id}
+              aria-hidden="true"
+              className="glass-panel min-h-[160px] animate-pulse"
+            />
           ))}
         </div>
       </section>
@@ -54,42 +72,42 @@ export default function PanelEtiquetas() {
   return (
     <section aria-labelledby="titulo-modulos">
       <header className="flex items-baseline justify-between gap-gutter">
-        <h2 id="titulo-modulos" className="text-lg font-semibold">Módulos de preparación</h2>
+        <h2 id="titulo-modulos" className="text-lg font-semibold text-arion-text">
+          Módulos de preparación
+        </h2>
         <p role="status" aria-live="polite" className="text-sm text-arion-muted">
           {activas.length} de {ETIQUETAS.length} activas
         </p>
       </header>
 
-      <ul className="mt-stack-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-gutter list-none p-0 m-0">
+      <ul className="mt-stack-lg grid list-none grid-cols-1 gap-gutter p-0 m-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {ETIQUETAS.map((e) => {
           const activa = activas.includes(e.id);
           return (
             <li key={e.id}>
-              {/* Wrapper de navegación: <Link> con <button> interno.
-                  Accesibilidad: el botón es el target de foco; Link
-                  provee navegación semántica sin duplicar focos. */}
-              <Link href={`/modulos/${e.id}`} className="block">
+              {/* Tarjeta: botón hace toggle; link FUERA del botón (WCAG) */}
+              <div className="glass-panel flex min-h-[160px] flex-col justify-between gap-stack-sm p-stack-md">
                 <button
                   type="button"
                   aria-pressed={activa}
-                  onClick={(ev) => {
-                    // Evitar navegación si solo se quiere alternar
-                    ev.stopPropagation();
-                    alternar(e.id);
-                  }}
-                  className={`
-                    glass-panel block w-full h-full min-h-[44px] cursor-pointer
-                    p-stack-md text-left
-                    transition-transform duration-150 hover:-translate-y-0.5
-                    motion-reduce:transition-none motion-reduce:hover:translate-y-0
-                    focus-visible:outline-2 focus-visible:outline-offset-2
-                    ${activa ? "ring-2 ring-arion-primary" : ""}
-                  `}
+                  aria-label={`Activar o desactivar módulo ${e.nombre}`}
+                  onClick={() => alternar(e.id)}
+                  className={`flex-1 text-left rounded-panel focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arion-primary motion-reduce:transition-none ${
+                    activa ? "ring-2 ring-arion-primary" : ""
+                  }`}
                 >
-                  <span className="block font-semibold">{e.nombre}</span>
+                  <span className="block font-semibold text-arion-text">{e.nombre}</span>
                   <span className="mt-stack-sm block text-sm text-arion-muted">{e.descripcion}</span>
                 </button>
-              </Link>
+
+                <Link
+                  href={`/modulos/${e.id}`}
+                  aria-label={`Entrar al módulo ${e.nombre}`}
+                  className="self-end text-sm text-arion-primary underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-arion-primary"
+                >
+                  Entrar →
+                </Link>
+              </div>
             </li>
           );
         })}
