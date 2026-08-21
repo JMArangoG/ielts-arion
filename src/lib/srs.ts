@@ -1,9 +1,9 @@
-// src/lib/srs.ts â€” M4: repaso espaciado (SM-2 lite) con almacenamiento local
+// src/lib/srs.ts — M4: repaso espaciado (SM-2 lite) con almacenamiento local
 // Sin backend: el progreso vive solo en el dispositivo (Ley 1581 de 2012).
 
 export type TarjetaSRS = {
   id: string;
-  intervalo: number; // dÃ­as hasta el prÃ³ximo repaso
+  intervalo: number; // días hasta el próximo repaso
   vence: string; // fecha ISO
 };
 
@@ -15,7 +15,7 @@ export function cargarSRS(): TarjetaSRS[] {
   try {
     return JSON.parse(localStorage.getItem(CLAVE_SRS) ?? "[]") as TarjetaSRS[];
   } catch {
-    return []; // dato corrupto â†’ inicio limpio (robustez)
+    return []; // dato corrupto → inicio limpio (robustez)
   }
 }
 
@@ -23,7 +23,7 @@ export function guardarSRS(t: TarjetaSRS[]) {
   localStorage.setItem(CLAVE_SRS, JSON.stringify(t));
 }
 
-// Regla pedagÃ³gica: recordada â†’ intervalo x2; olvidada â†’ vuelve a 1 dÃ­a
+// Regla pedagógica: recordada → intervalo x2; olvidada → vuelve a 1 día
 export function repasar(t: TarjetaSRS[], id: string, recordada: boolean): TarjetaSRS[] {
   const existe = t.find((x) => x.id === id);
   const intervalo = existe
@@ -33,7 +33,7 @@ export function repasar(t: TarjetaSRS[], id: string, recordada: boolean): Tarjet
   return [...t.filter((x) => x.id !== id), { id, intervalo, vence }];
 }
 
-// Tarjetas vencidas + nuevas (mÃ¡ximo 6 por sesiÃ³n: carga cognitiva TDAH)
+// Tarjetas vencidas + nuevas (máximo 6 por sesión: carga cognitiva TDAH)
 export function vencidas(t: TarjetaSRS[], ids: string[]): string[] {
   const hoy = Date.now();
   const enSistema = new Set(t.map((x) => x.id));
