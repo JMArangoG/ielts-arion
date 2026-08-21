@@ -1,14 +1,14 @@
 /* =====================================================================
-   src/app/globals.css â€” Base ORION sobre Tailwind v4 (CSS-first)
-   Cambio v3 (rendimiento): sin backdrop-filter <640px â†’ libera GPU
-   mÃ³vil y adelanta el paint del LCP. Resto de tokens intacto.
+   src/app/globals.css — Base ORION sobre Tailwind v4 (CSS-first)
+   Cambio v3 (rendimiento): sin backdrop-filter <640px → libera GPU
+   móvil y adelanta el paint del LCP. Resto de tokens intacto.
    ===================================================================== */
 @import "tailwindcss";
 
-/* ---------- Tokens ORION: fuente Ãºnica auditable ----------
+/* ---------- Tokens ORION: fuente única auditable ----------
    Contrastes sobre ORION-surface (WCAG 2.2):
-   text 13.5:1 AAA Â· muted 6.7:1 AA Â· primary 6.1:1 AA Â·
-   on-primary 7.8:1 Â· success 8.2:1 Â· warning 9.0:1 Â· danger 6.3:1 */
+   text 13.5:1 AAA · muted 6.7:1 AA · primary 6.1:1 AA ·
+   on-primary 7.8:1 · success 8.2:1 · warning 9.0:1 · danger 6.3:1 */
 @theme {
   --color-ORION-surface: #26282B;
   --color-ORION-surface-2: #2E3134;
@@ -21,7 +21,7 @@
   --color-ORION-danger: #F08C8C;
 
   /* Tailwind v4 genera utilidades nativas: px-edge, gap-gutter,
-     mt-stack-mdâ€¦ con clamp() responsivo incluido */
+     mt-stack-md… con clamp() responsivo incluido */
   --spacing-edge: clamp(1rem, 4vw, 3rem);
   --spacing-gutter: clamp(0.75rem, 2vw, 1.5rem);
   --spacing-stack-sm: 0.5rem;
@@ -32,7 +32,7 @@
   --radius-panel: 1rem;
 }
 
-/* ---------- Base de color y tipografÃ­a (0 webfonts â†’ LCP < 2.5 s) ---------- */
+/* ---------- Base de color y tipografía (0 webfonts → LCP < 2.5 s) ---------- */
 html { color-scheme: dark; }
 body {
   background: var(--color-ORION-surface);
@@ -48,7 +48,7 @@ body {
   border: 1px solid rgb(255 255 255 / 0.08);
   border-radius: var(--radius-panel);
 }
-/* MÃ³vil: sin blur â†’ GPU libre, paint LCP mÃ¡s temprano */
+/* Móvil: sin blur → GPU libre, paint LCP más temprano */
 @media (max-width: 640px) {
   .glass-panel { backdrop-filter: none; -webkit-backdrop-filter: none; }
 }

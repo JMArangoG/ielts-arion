@@ -1,4 +1,4 @@
-// src/app/practica/page.tsx â€” M3: prÃ¡ctica de 4 habilidades con fuentes abiertas
+// src/app/practica/page.tsx — M3: práctica de 4 habilidades con fuentes abiertas
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import { PRACTICA } from "@/data/practica-bank";
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 type Skill = (typeof SKILLS)[number];
 
-// Progreso solo en el dispositivo (minimizaciÃ³n, Ley 1581 de 2012)
+// Progreso solo en el dispositivo (minimización, Ley 1581 de 2012)
 const CLAVE_PROGRESO = "ORION:progreso";
 
 export default function Practica() {
@@ -21,7 +21,7 @@ export default function Practica() {
       setHechas(JSON.parse(localStorage.getItem(CLAVE_PROGRESO) ?? "[]") as string[]);
     } catch {
        
-      setHechas([]); // dato corrupto â†’ inicio limpio (robustez)
+      setHechas([]); // dato corrupto → inicio limpio (robustez)
     }
   }, []);
 
@@ -37,9 +37,9 @@ export default function Practica() {
     <main className="min-h-screen px-edge py-stack-xl">
       <section className="mx-auto flex max-w-3xl flex-col gap-stack-lg">
         <header className="glass-panel p-stack-lg">
-          <h1 className="text-2xl font-semibold text-ORION-text">PrÃ¡ctica por habilidad</h1>
+          <h1 className="text-2xl font-semibold text-ORION-text">Práctica por habilidad</h1>
           <p className="mt-stack-sm text-ORION-muted">
-            Micro-sesiones de 5â€“15 min con fuentes abiertas verificadas.
+            Micro-sesiones de 5–15 min con fuentes abiertas verificadas.
           </p>
         </header>
 
@@ -96,7 +96,7 @@ export default function Practica() {
                     : "mt-stack-md rounded-panel border border-ORION-muted px-stack-md py-stack-sm text-ORION-text hover:border-ORION-success"
                 }
               >
-                {hechas.includes(a.id) ? "Completada âœ“" : "Marcar completada"}
+                {hechas.includes(a.id) ? "Completada ✓" : "Marcar completada"}
               </button>
             </article>
           ))}
