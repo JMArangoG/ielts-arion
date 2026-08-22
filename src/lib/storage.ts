@@ -5,6 +5,8 @@
 // =====================================================================
 
 // 1. ÚNICA fuente de verdad para las claves de almacenamiento
+// ⚠️ No declares estas constantes en ningún otro sitio.
+//    Si necesitas usarlas, impórtalas desde aquí.
 export const STORAGE_KEY = "ORION:modulos-activos:v1";
 export const CLAVE_PROGRESO = "ORION:progreso";
 export const CLAVE_SRS = "ORION:srs:v1";
@@ -13,7 +15,6 @@ export const CLAVE_SRS = "ORION:srs:v1";
 export function cargarModulosActivos(): string[] {
   if (typeof window === "undefined") return []; // SSR seguro
   try {
-    // Unificado a STORAGE_KEY para consistencia total
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
@@ -29,10 +30,13 @@ export function cargarModulosActivos(): string[] {
 export function guardarModulosActivos(ids: string[]): void {
   if (typeof window === "undefined") return; // SSR seguro
   try {
-    // Unificado a STORAGE_KEY para consistencia total
     localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   } catch {
     // Quota excedida o modo privacidad: no romper la UX
     console.warn("ORION: no se pudo persistir módulos activos");
   }
 }
+
+// (Opcional) Si necesitas exportar un objeto con todas las claves
+// para evitar imports individuales:
+// export const KEYS = { STORAGE_KEY, CLAVE_PROGRESO, CLAVE_SRS };
