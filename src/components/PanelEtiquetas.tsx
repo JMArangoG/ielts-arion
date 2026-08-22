@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ETIQUETAS } from "@/config/etiquetas";
-import { CLAVE_MODULOS } from "@/lib/storage";
+import { STORAGE_KEY } from "@/lib/storage";
 
 export default function PanelEtiquetas() {
   const [activas, setActivas] = useState<string[]>([]);
@@ -14,7 +14,7 @@ export default function PanelEtiquetas() {
     // Hidratación única desde localStorage tras el montaje (solo cliente).
     // Dependencias vacías []: una sola ejecución, sin bucles posibles.
     try {
-      const raw = localStorage.getItem(CLAVE_MODULOS);
+      const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
@@ -33,7 +33,7 @@ export default function PanelEtiquetas() {
   useEffect(() => {
     if (!listo) return; // espera la hidratación antes de persistir
     try {
-      localStorage.setItem(CLAVE_MODULOS, JSON.stringify(activas));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(activas));
     } catch {
       // Fallo silencioso: persistencia local es no-crítica (robustez)
     }
@@ -114,4 +114,3 @@ export default function PanelEtiquetas() {
     </section>
   );
 }
-
