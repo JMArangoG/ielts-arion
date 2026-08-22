@@ -93,9 +93,9 @@ export default function Dashboard() {
         >
           Volver al inicio
         </Link>
-      </section>
+
         <PanelIA />
+      </section>
     </main>
   );
 }
-
