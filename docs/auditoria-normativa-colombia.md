@@ -114,4 +114,49 @@ Alcance: dato personal, accesibilidad y seguridad de la información.
 - Corrección: reversa con marcador numérico [char]0x00C3 sobre todo src.
 - Preventivo: en PS 5.1, los patrones y reemplazos no-ASCII se expresan con
   códigos numéricos; los textos con acentos se editan en VS Code, no por consola.
+### INC-007 · Duplicación de claves de persistencia en el cliente
+- **Qué pasó:** `STORAGE_KEY` y `CLAVE_PROGRESO` estaban definidos inline en `PanelEtiquetas.tsx` y `practica/page.tsx`.
+- **Impacto:** Riesgo de inconsistencia de datos y dificultad para migrar a esquemas encriptados o IndexedDB en el futuro.
+- **Corrección:** Centralización de todas las claves en `src/lib/storage.ts` con exportación tipada.
+- **Preventivo:** Regla de linting o revisión de PR que prohíba `localStorage.getItem` con strings hardcodeados fuera de `src/lib/`.
+
+### INC-008 · Tokens de diseño ORION en minúsculas (Hallazgo B1)
+- **Qué pasó:** Uso inicial de clases Tailwind en minúsculas (`text-orion-*`), violando la convención del sistema de diseño ARION/ORION.
+- **Impacto:** Inconsistencia visual y fallos de compilación si el `tailwind.config` es case-sensitive.
+- **Corrección:** Refactorización global a mayúsculas (`text-ORION-*`, `bg-ORION-*`).
+- **Preventivo:** Configuración de `tailwind.config` para rechazar tokens no estandarizados y revisión visual en PR.
+
+### INC-009 · Manifest de PWA sin íconos requeridos (Hallazgo M2)
+- **Qué pasó:** El `manifest.json` carecía de las propiedades `icons` con resoluciones 192x192 y 512x512.
+- **Impacto:** Imposibilidad de instalación nativa en dispositivos móviles y penalización en Lighthouse PWA audit.
+- **Corrección:** Generación e inclusión de los assets PNG en `/public` y registro en el manifiesto.
+- **Preventivo:** Incluir validación de manifiesto en el pipeline de CI con `lighthouse-ci`.
+
+### INC-010 · Ausencia de auditoría de accesibilidad en CI (Hallazgo M3)
+- **Qué pasó:** El workflow de CI no ejecutaba pruebas de accesibilidad automatizadas.
+- **Impacto:** Riesgo de introducir regresiones que violen WCAG 2.2 nivel AA (Ley 1618 de 2013).
+- **Corrección:** Integración pendiente de `axe-core` en el pipeline (requiere levantamiento de servidor headless).
+- **Preventivo:** Ejecución local de `npm run test:a11y` antes de cada push a ramas de característica.
+
+### INC-011 · Inconsistencia en nombrado de workflows CI (Hallazgo C1)
+- **Qué pasó:** El archivo de workflow se denominaba `CI ARION` en lugar de `CI ORION`.
+- **Impacto:** Confusión operativa y desalineación con la identidad del proyecto.
+- **Corrección:** Renombrado del workflow a `CI ORION`.
+- **Preventivo:** Validación de nombres de jobs en la revisión de PR de infraestructura.
+
+### INC-012 · Comentarios obsoletos en Service Worker (Hallazgo C2)
+- **Qué pasó:** El archivo `sw.js` contenía comentarios genéricos o no alineados con la normativa de trazabilidad.
+- **Impacto:** Dificultad para auditorías de seguridad y mantenimiento.
+- **Corrección:** Limpieza y estandarización de comentarios en `sw.js`.
+- **Preventivo:** Plantilla de comentarios obligatoria para archivos de infraestructura de red.
+
+### INC-013 · Falsa positiva en ofuscación de cadenas de UI (Hallazgo M1)
+- **Qué pasó:** Se intentó aplicar el patrón de verificación `[char]0xNUM` a cadenas de texto de la interfaz de usuario (UI) en español.
+- **Impacto:** **Crítico para accesibilidad.** Los lectores de pantalla (screen readers) no pueden interpretar estos patrones, violando WCAG 2.2 (Criterio 1.3.1 Info and Relationships). Además, afecta negativamente el SEO y la mantenibilidad.
+- **Corrección:** Excluir explícitamente las cadenas de UI renderizadas de este patrón. La verificación `[char]0xNUM` se aplicará **exclusivamente** a patrones de logs, consola o validación interna de seguridad, nunca al DOM visible.
+- **Preventivo:** Regla de ESLint personalizada que flaggee el uso de patrones de ofuscación en componentes de retorno JSX.
+
+### DEC-001 · Decisión Arquitectónica: Capa de Persistencia Unificada
+- **Decisión:** Toda la interacción con `localStorage` o `sessionStorage` debe pasar exclusivamente por los métodos exportados en `src/lib/storage.ts`.
+- **Justificación:** Garantiza un único punto de verdad (Single Source of Truth), facilita la futura migración a IndexedDB o la implementación de encriptación de datos en reposo (Ley 1581, principio de seguridad), y permite un manejo centralizado de errores (ej. cuota excedida o modo incógnito) sin romper la UX de los componentes.
 

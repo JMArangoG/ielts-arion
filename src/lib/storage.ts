@@ -3,19 +3,18 @@
 // Por qué: centraliza keys, validación de esquema y manejo de errores
 // (SSR, quota, privacidad) sin ensuciar componentes con try/catch.
 // =====================================================================
-export const CLAVE_MODULOS = "ORION:modulos-activos:v1";
-// =====================================================================
-// ORION · Capa de persistencia — localStorage con tipado seguro
-// =====================================================================
+
+// 1. ÚNICA fuente de verdad para las claves de almacenamiento
 export const STORAGE_KEY = "ORION:modulos-activos:v1";
 export const CLAVE_PROGRESO = "ORION:progreso";
-export const CLAVE_SRS = "ORION:srs:v1"; // Agregado para completitud
+export const CLAVE_SRS = "ORION:srs:v1";
 
-// ... (mantén el resto de las funciones cargarModulosActivos y guardarModulosActivos)
+// 2. Funciones de utilidad centralizadas
 export function cargarModulosActivos(): string[] {
   if (typeof window === "undefined") return []; // SSR seguro
   try {
-    const raw = localStorage.getItem(CLAVE_MODULOS);
+    // Unificado a STORAGE_KEY para consistencia total
+    const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     // Validación de esquema: debe ser string[]
@@ -30,12 +29,10 @@ export function cargarModulosActivos(): string[] {
 export function guardarModulosActivos(ids: string[]): void {
   if (typeof window === "undefined") return; // SSR seguro
   try {
-    localStorage.setItem(CLAVE_MODULOS, JSON.stringify(ids));
+    // Unificado a STORAGE_KEY para consistencia total
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   } catch {
     // Quota excedida o modo privacidad: no romper la UX
     console.warn("ORION: no se pudo persistir módulos activos");
   }
 }
-
-export const CLAVE_PROGRESO = "ORION:progreso";
-export const CLAVE_SRS = "ORION:srs";
