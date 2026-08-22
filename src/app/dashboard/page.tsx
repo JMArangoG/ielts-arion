@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CLAVE_PERFIL, type Perfil } from "@/lib/placement";
 import { generarPlan } from "@/lib/plan";
+import PanelIA from "@/components/PanelIA";
 
 export default function Dashboard() {
   // Lectura en useEffect: evita desajuste SSR/hidratación con localStorage
@@ -93,6 +94,7 @@ export default function Dashboard() {
           Volver al inicio
         </Link>
       </section>
+        <PanelIA />
     </main>
   );
 }
