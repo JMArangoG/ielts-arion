@@ -3,12 +3,12 @@
 // Por qué: centraliza keys, validación de esquema y manejo de errores
 // (SSR, quota, privacidad) sin ensuciar componentes con try/catch.
 // =====================================================================
-const STORAGE_KEY = "ORION:modulos-activos:v1";
+export const CLAVE_MODULOS = "ORION:modulos-activos:v1";
 
 export function cargarModulosActivos(): string[] {
   if (typeof window === "undefined") return []; // SSR seguro
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(CLAVE_MODULOS);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     // Validación de esquema: debe ser string[]
@@ -23,9 +23,12 @@ export function cargarModulosActivos(): string[] {
 export function guardarModulosActivos(ids: string[]): void {
   if (typeof window === "undefined") return; // SSR seguro
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    localStorage.setItem(CLAVE_MODULOS, JSON.stringify(ids));
   } catch {
     // Quota excedida o modo privacidad: no romper la UX
     console.warn("ORION: no se pudo persistir módulos activos");
   }
 }
+
+export const CLAVE_PROGRESO = "ORION:progreso";
+export const CLAVE_SRS = "ORION:srs";

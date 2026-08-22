@@ -4,13 +4,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { PRACTICA } from "@/data/practica-bank";
+import { CLAVE_PROGRESO } from "@/lib/storage";
 
 const SKILLS = ["listening", "reading", "writing", "speaking"] as const;
 type Skill = (typeof SKILLS)[number];
 
 // Progreso solo en el dispositivo (minimización, Ley 1581 de 2012)
-const CLAVE_PROGRESO = "ORION:progreso";
-
 export default function Practica() {
   const [skill, setSkill] = useState<Skill>("listening");
   const [hechas, setHechas] = useState<string[]>([]);
