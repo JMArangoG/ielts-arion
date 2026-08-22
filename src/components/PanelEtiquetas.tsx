@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ETIQUETAS } from "@/config/etiquetas";
-
-const STORAGE_KEY = "ORION:modulos-activos:v1";
+import { STORAGE_KEY } from "@/lib/storage";
 
 export default function PanelEtiquetas() {
   const [activas, setActivas] = useState<string[]>([]);
@@ -115,4 +114,3 @@ export default function PanelEtiquetas() {
     </section>
   );
 }
-

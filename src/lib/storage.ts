@@ -3,8 +3,15 @@
 // Por qué: centraliza keys, validación de esquema y manejo de errores
 // (SSR, quota, privacidad) sin ensuciar componentes con try/catch.
 // =====================================================================
-const STORAGE_KEY = "ORION:modulos-activos:v1";
 
+// 1. ÚNICA fuente de verdad para las claves de almacenamiento
+// ⚠️ No declares estas constantes en ningún otro sitio.
+//    Si necesitas usarlas, impórtalas desde aquí.
+export const STORAGE_KEY = "ORION:modulos-activos:v1";
+export const CLAVE_PROGRESO = "ORION:progreso";
+export const CLAVE_SRS = "ORION:srs:v1";
+
+// 2. Funciones de utilidad centralizadas
 export function cargarModulosActivos(): string[] {
   if (typeof window === "undefined") return []; // SSR seguro
   try {
@@ -29,3 +36,7 @@ export function guardarModulosActivos(ids: string[]): void {
     console.warn("ORION: no se pudo persistir módulos activos");
   }
 }
+
+// (Opcional) Si necesitas exportar un objeto con todas las claves
+// para evitar imports individuales:
+// export const KEYS = { STORAGE_KEY, CLAVE_PROGRESO, CLAVE_SRS };
