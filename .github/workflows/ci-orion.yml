@@ -1,5 +1,5 @@
-# CI ARION — puerta de calidad en cada PR hacia main/develop
-name: CI ARION
+﻿# CI ORION â€” puerta de calidad en cada PR hacia main/develop
+name: CI ORION
 on:
   pull_request:
     branches: [main, develop]
@@ -8,7 +8,7 @@ jobs:
   calidad:
     runs-on: ubuntu-latest
     steps:
-      - name: Código fuente
+      - name: CÃ³digo fuente
         uses: actions/checkout@v4
 
       # Node fijado: builds reproducibles entre local, CI y plataforma
@@ -18,8 +18,8 @@ jobs:
           node-version: 22
 
       # SIN "version": el action lee packageManager desde package.json.
-      # Fuente única de verdad → evita ERR_PNPM_BAD_PM_VERSION.
-      - name: pnpm (versión desde packageManager)
+      # Fuente Ãºnica de verdad â†’ evita ERR_PNPM_BAD_PM_VERSION.
+      - name: pnpm (versiÃ³n desde packageManager)
         uses: pnpm/action-setup@v4
 
       # Lockfile inmutable: cualquier deriva rompe el build temprano
@@ -29,5 +29,5 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Build de producción
+      - name: Build de producciÃ³n
         run: pnpm build
