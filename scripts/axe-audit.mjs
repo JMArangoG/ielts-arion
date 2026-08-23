@@ -9,9 +9,9 @@ const RUTAS_CRITICAS = ['/', '/practica', '/onboarding'];
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 async function auditarRuta(page, ruta) {
-  console.log(\n🔍 Auditando: );
+  console.log(`\n🔍 Auditando: ${ruta}`);
   
-  await page.goto(${BASE_URL}, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}${ruta}`, { waitUntil: 'networkidle' });
   
   const resultados = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']) // WCAG 2.2 AA
@@ -22,23 +22,23 @@ async function auditarRuta(page, ruta) {
   );
   
   if (violaciones.length > 0) {
-    console.error(\n❌  violaciones WCAG 2.2 AA en :);
+    console.error(`\n❌ ${violaciones.length} violaciones WCAG 2.2 AA en ${ruta}:`);
     violaciones.forEach((v, i) => {
-      console.error(\n  .  ());
-      console.error(     );
-      console.error(     Ayuda: );
-      console.error(     Elementos afectados: );
+      console.error(`\n  ${i + 1}. ${v.id} (${v.impact})`);
+      console.error(`     ${v.description}`);
+      console.error(`     Ayuda: ${v.helpUrl}`);
+      console.error(`     Elementos afectados: ${v.nodes.length}`);
     });
     return false;
   }
   
-  console.log(✅ : Sin violaciones críticas);
+  console.log(`✅ ${ruta}: Sin violaciones críticas`);
   return true;
 }
 
 async function main() {
   console.log('🚀 Iniciando auditoría de accesibilidad WCAG 2.2 AA');
-  console.log(Base URL: \n);
+  console.log(`Base URL: ${BASE_URL}\n`);
   
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext();
