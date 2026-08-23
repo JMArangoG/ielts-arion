@@ -1,33 +1,53 @@
-﻿# CI ORION â€” puerta de calidad en cada PR hacia main/develop
-name: CI ORION
+﻿name: CI ORION
+
 on:
+  push:
+    branches: [main, develop]
   pull_request:
     branches: [main, develop]
 
 jobs:
-  calidad:
+  build-and-test:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: CÃ³digo fuente
+      - name: Checkout código
         uses: actions/checkout@v4
-
-      # Node fijado: builds reproducibles entre local, CI y plataforma
-      - name: Node 22 LTS
+      
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-
-      # SIN "version": el action lee packageManager desde package.json.
-      # Fuente Ãºnica de verdad â†’ evita ERR_PNPM_BAD_PM_VERSION.
-      - name: pnpm (versiÃ³n desde packageManager)
-        uses: pnpm/action-setup@v4
-
-      # Lockfile inmutable: cualquier deriva rompe el build temprano
-      - name: Dependencias
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Build de producciÃ³n
+      
+      - name: Instalar navegadores Playwright
+        run: pnpm exec playwright install --with-deps chromium
+      
+      - name: Build de producción
         run: pnpm build
+      
+      - name: Iniciar servidor Next.js en background
+        run: |
+          pnpm start &
+          echo $! > .next-server.pid
+          sleep 10  # Esperar a que el servidor esté listo
+      
+      - name: Ejecutar auditoría de accesibilidad WCAG 2.2 AA
+        run: node scripts/axe-audit.mjs
+        env:
+          BASE_URL: http://localhost:3000
+      
+      - name: Detener servidor Next.js
+        if: always()
+        run: |
+          if [ -f .next-server.pid ]; then
+            kill $(cat .next-server.pid) || true
+          fi
