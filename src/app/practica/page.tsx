@@ -1,7 +1,7 @@
 // src/app/practica/page.tsx — M3: práctica de 4 habilidades con fuentes abiertas
-import { Metadata } from 'next';
 "use client";
 
+import { Metadata } from 'next';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { PRACTICA } from "@/data/practica-bank";
