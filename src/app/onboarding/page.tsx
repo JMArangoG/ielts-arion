@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation"; // 👈 NUEVO: para navegación programática
 import { BANK } from "@/data/placement-bank";
 import {
   CLAVE_PERFIL,
@@ -11,10 +11,16 @@ import {
   type Item,
   type Perfil,
 } from "@/lib/placement";
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import StepIndicator from '@/components/atoms/StepIndicator';
+import ProgressBar from '@/components/atoms/ProgressBar';
 
 type Paso = "consentimiento" | "meta" | "examen" | "resultado";
 
 export default function Onboarding() {
+  const router = useRouter(); // 👈 NUEVO
+
   const [paso, setPaso] = useState<Paso>("consentimiento");
   const [bandaObjetivo, setBandaObjetivo] = useState(7);
   const [usados, setUsados] = useState<string[]>([]);
@@ -22,7 +28,6 @@ export default function Onboarding() {
   const [item, setItem] = useState<Item | undefined>(() => siguienteItem(BANK, [], 2));
   const [perfil, setPerfil] = useState<Perfil | null>(null);
 
-  // Regla adaptativa: acierto sube dificultad, error la baja (seed M1)
   const responder = (opcion: number) => {
     if (!item) return;
     const acierto = opcion === item.a;
@@ -39,7 +44,6 @@ export default function Onboarding() {
         nivelInicial: estimarBanda(nuevoHistorial),
         fecha: new Date().toISOString(),
       };
-      // Dato solo en dispositivo (Ley 1581 de 2012: minimización)
       localStorage.setItem(CLAVE_PERFIL, JSON.stringify(p));
       setPerfil(p);
       setPaso("resultado");
@@ -48,40 +52,47 @@ export default function Onboarding() {
     setItem(siguienteItem(BANK, nuevosUsados, nuevaDiff) ?? BANK.find((i) => !nuevosUsados.includes(i.id)));
   };
 
+  // ============================================================
+  //  PASO 1: CONSENTIMIENTO
+  // ============================================================
   if (paso === "consentimiento") {
     return (
       <main className="min-h-screen px-edge py-stack-xl">
         <section className="mx-auto flex max-w-2xl flex-col gap-stack-lg">
-          <header className="glass-panel p-stack-lg">
+          <Card>
             <h1 className="text-2xl font-semibold text-ORION-text">Bienvenido/a a ielts-ORION</h1>
             <p className="mt-stack-sm text-ORION-muted">
               Preparación gratuita para IELTS con pedagogía autogestionada para adultos con TDAH.
             </p>
-          </header>
-          <div className="glass-panel p-stack-lg">
+          </Card>
+          <Card>
             <h2 className="text-lg font-semibold text-ORION-text">Consentimiento informado</h2>
             <p className="mt-stack-sm text-ORION-muted">
               Tu progreso se guarda solo en este dispositivo (Ley 1581 de 2012, principio de
               minimización). No creamos cuentas ni enviamos datos personales a servidores.
             </p>
-            <button
-              type="button"
+            <Button
+              variant="primary"
+              size="md"
               onClick={() => setPaso("meta")}
-              className="mt-stack-md rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
+              className="mt-stack-md"
             >
               Acepto y continúo
-            </button>
-          </div>
+            </Button>
+          </Card>
         </section>
       </main>
     );
   }
 
+  // ============================================================
+  //  PASO 2: META (SELECCIÓN DE BANDA)
+  // ============================================================
   if (paso === "meta") {
     return (
       <main className="min-h-screen px-edge py-stack-xl">
         <section className="mx-auto max-w-2xl">
-          <div className="glass-panel p-stack-lg">
+          <Card>
             <label htmlFor="banda" className="text-lg font-semibold text-ORION-text">
               ¿Qué banda overall necesitas?
             </label>
@@ -95,48 +106,63 @@ export default function Onboarding() {
                 <option key={b} value={b}>{b}</option>
               ))}
             </select>
-            <button
-              type="button"
+            <Button
+              variant="primary"
+              size="md"
               onClick={() => setPaso("examen")}
-              className="mt-stack-md rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
+              className="mt-stack-md"
             >
               Iniciar examen de clasificación
-            </button>
-          </div>
+            </Button>
+          </Card>
         </section>
       </main>
     );
   }
 
+  // ============================================================
+  //  PASO 3: EXAMEN (PREGUNTAS)
+  // ============================================================
   if (paso === "examen" && item) {
+    const progress = (historial.length / 4) * 100; // 0, 25, 50, 75%
+
     return (
       <main className="min-h-screen px-edge py-stack-xl">
         <section className="mx-auto max-w-2xl">
-          <div className="glass-panel p-stack-lg">
+          <Card>
+            {/* Indicador de paso y progreso */}
+            <div className="mb-4">
+              <StepIndicator currentStep={historial.length + 1} totalSteps={4} />
+              <ProgressBar progress={progress} label="Progreso del examen" size="sm" className="mt-2" />
+            </div>
             <p className="text-ORION-muted">Ítem {historial.length + 1} de 4 · habilidad: reading</p>
             <h1 className="mt-stack-sm text-xl font-semibold text-ORION-text">{item.q}</h1>
             <div className="mt-stack-md flex flex-col gap-stack-sm" role="group" aria-label="Opciones de respuesta">
               {item.options.map((op, i) => (
-                <button
+                <Button
                   key={op}
-                  type="button"
+                  variant="ghost"
+                  size="md"
                   onClick={() => responder(i)}
-                  className="rounded-panel border border-ORION-muted bg-ORION-surface-2 px-stack-md py-stack-sm text-left text-ORION-text hover:border-ORION-primary"
+                  className="justify-start text-left w-full border border-ORION-muted hover:border-ORION-primary"
                 >
                   {op}
-                </button>
+                </Button>
               ))}
             </div>
-          </div>
+          </Card>
         </section>
       </main>
     );
   }
 
+  // ============================================================
+  //  PASO 4: RESULTADO
+  // ============================================================
   return (
     <main className="min-h-screen px-edge py-stack-xl">
       <section className="mx-auto max-w-2xl">
-        <div className="glass-panel p-stack-lg">
+        <Card>
           <h1 className="text-2xl font-semibold text-ORION-text">Clasificación completada</h1>
           <p className="mt-stack-md text-ORION-text">
             Nivel inicial estimado: <strong className="text-ORION-success">banda {perfil?.nivelInicial}</strong>
@@ -144,13 +170,15 @@ export default function Onboarding() {
           <p className="mt-stack-sm text-ORION-muted">
             Meta: banda {perfil?.bandaObjetivo}. En M2 verás tu plan adaptativo.
           </p>
-          <Link
-            href="/"
-            className="mt-stack-md inline-block rounded-panel bg-ORION-primary px-stack-md py-stack-sm font-semibold text-ORION-on-primary"
+          <Button
+            variant="primary"
+            size="md"
+            onClick={() => router.push('/')}
+            className="mt-stack-md"
           >
             Volver al inicio
-          </Link>
-        </div>
+          </Button>
+        </Card>
       </section>
     </main>
   );
