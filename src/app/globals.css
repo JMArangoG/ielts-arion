@@ -69,3 +69,52 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+/* ============================================
+   MODO ENFOQUE - TDAH-Friendly
+   Oculta distracciones para usuarios con TDAH
+   ============================================ */
+
+/* Cuando el modo enfoque está activo */
+body.focus-mode {
+  /* Opcional: reduce la saturación de colores para menos estimulación visual */
+  /* filter: saturate(0.9); */
+}
+
+/* Ocultar elementos no esenciales */
+body.focus-mode .sidebar,
+body.focus-mode .nav-secondary,
+body.focus-mode .notifications,
+body.focus-mode .footer-extra,
+body.focus-mode .social-sharing,
+body.focus-mode .ad-banner,
+body.focus-mode .chat-widget {
+  display: none !important;
+}
+
+/* Centrar y limitar el ancho del contenido principal */
+body.focus-mode main {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Opcional: Ocultar elementos del header que no sean esenciales */
+body.focus-mode .header-extra,
+body.focus-mode .user-menu-extras {
+  display: none !important;
+}
+
+/* Asegurar que el contenido principal ocupe todo el ancho disponible */
+body.focus-mode .container-fluid {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Si usas un layout con grid, simplificarlo en modo enfoque */
+body.focus-mode .grid-cols-2,
+body.focus-mode .grid-cols-3,
+body.focus-mode .grid-cols-4 {
+  grid-template-columns: 1fr !important;
+}
