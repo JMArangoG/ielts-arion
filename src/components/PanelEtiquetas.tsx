@@ -4,38 +4,34 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ETIQUETAS } from "@/config/etiquetas";
 import { STORAGE_KEY } from "@/lib/storage";
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
 
 export default function PanelEtiquetas() {
   const [activas, setActivas] = useState<string[]>([]);
   const [listo, setListo] = useState(false);
 
-  // Cargar al montar (solo cliente)
   useEffect(() => {
-    // Hidratación única desde localStorage tras el montaje (solo cliente).
-    // Dependencias vacías []: una sola ejecución, sin bucles posibles.
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
-          // eslint-disable-next-line react-hooks/set-state-in-effect -- hidratación única post-montaje, sin bucle
           setActivas(parsed);
         }
       }
     } catch {
-      // Dato corrupto → estado por defecto (robustez); sin ruido en consola
+      // Dato corrupto → estado por defecto
     }
-     
     setListo(true);
   }, []);
 
-  // Guardar cada vez que cambien (sin logs en producción)
   useEffect(() => {
-    if (!listo) return; // espera la hidratación antes de persistir
+    if (!listo) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(activas));
     } catch {
-      // Fallo silencioso: persistencia local es no-crítica (robustez)
+      // Fallo silencioso
     }
   }, [activas, listo]);
 
@@ -54,14 +50,15 @@ export default function PanelEtiquetas() {
           </h2>
           <p className="text-sm text-ORION-muted">Iniciando…</p>
         </header>
-        {/* Skeleton accesible con altura controlada */}
         <div className="mt-stack-lg grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {ETIQUETAS.map((e) => (
-            <div
+            <Card
               key={e.id}
+              className="min-h-[160px] animate-pulse"
               aria-hidden="true"
-              className="glass-panel min-h-[160px] animate-pulse"
-            />
+            >
+              <div className="invisible">Cargando...</div> {/* 👈 FIX: children requerido */}
+            </Card>
           ))}
         </div>
       </section>
@@ -84,20 +81,22 @@ export default function PanelEtiquetas() {
           const activa = activas.includes(e.id);
           return (
             <li key={e.id}>
-              {/* Tarjeta: botón hace toggle; link FUERA del botón (WCAG) */}
-              <div className="glass-panel flex min-h-[160px] flex-col justify-between gap-stack-sm p-stack-md">
-                <button
-                  type="button"
+              <Card className="flex min-h-[160px] flex-col justify-between gap-stack-sm p-stack-md">
+                <Button
+                  variant="ghost"
+                  size="md"
+                  onClick={() => alternar(e.id)}
                   aria-pressed={activa}
                   aria-label={`Activar o desactivar módulo ${e.nombre}`}
-                  onClick={() => alternar(e.id)}
-                  className={`flex-1 text-left rounded-panel focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ORION-primary motion-reduce:transition-none ${
+                  className={`flex-1 text-left justify-start w-full ${
                     activa ? "ring-2 ring-ORION-primary" : ""
                   }`}
                 >
                   <span className="block font-semibold text-ORION-text">{e.nombre}</span>
-                  <span className="mt-stack-sm block text-sm text-ORION-muted">{e.descripcion}</span>
-                </button>
+                  <span className="mt-stack-sm block text-sm text-ORION-muted">
+                    {e.descripcion}
+                  </span>
+                </Button>
 
                 <Link
                   href={`/modulos/${e.id}`}
@@ -106,7 +105,7 @@ export default function PanelEtiquetas() {
                 >
                   Entrar →
                 </Link>
-              </div>
+              </Card>
             </li>
           );
         })}
