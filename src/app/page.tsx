@@ -4,6 +4,11 @@
 // Servidor puro: 0 JS de shell, 0 íconos externos.
 // =====================================================================
 import PanelEtiquetas from "@/components/PanelEtiquetas";
+// ========== IMPORTS DE NUEVOS COMPONENTES (disponibles para futuros cambios) ==========
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import ProgressBar from '@/components/atoms/ProgressBar';
+// =======================================================================================
 
 export const metadata = {
   title: "ielts-ORION · M0 listo",
