@@ -9,42 +9,39 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-      
-      - name: Instalar pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      
-      - name: Configurar Node.js
+
+      - name: Instalar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
-      
+
+      - name: Instalar pnpm globalmente
+        run: npm install -g pnpm
+
       - name: Instalar dependencias
-        run: pnpm install --frozen-lockfile
-      
+        run: pnpm install
+
       - name: Instalar navegadores Playwright
         run: pnpm exec playwright install --with-deps chromium
-      
+
       - name: Build de producción
         run: pnpm build
-      
+
       - name: Iniciar servidor Next.js en background
         run: |
           pnpm start &
           echo $! > .next-server.pid
-          sleep 10  # Esperar a que el servidor esté listo
-      
+          sleep 10
+
       - name: Ejecutar auditoría de accesibilidad WCAG 2.2 AA
         run: node scripts/axe-audit.mjs
         env:
           BASE_URL: http://localhost:3000
-      
+
       - name: Detener servidor Next.js
         if: always()
         run: |
